@@ -401,6 +401,52 @@ macro_rules! STRUCT {
         }
     );
 }
+#[macro_export]
+macro_rules! STRUCT16 {
+    (#[debug] $($rest:tt)*) => (
+        STRUCT!{#[cfg_attr(feature = "impl-debug", derive(Debug))] $($rest)*}
+    );
+    ($(#[$attrs:meta])* struct $name:ident {
+        $($field:ident: $ftype:ty,)+
+    }) => (
+        #[repr(C, align(16))] #[derive(Copy)] $(#[$attrs])*
+        pub struct $name {
+            $(pub $field: $ftype,)+
+        }
+        impl Clone for $name {
+            #[inline]
+            fn clone(&self) -> $name { *self }
+        }
+        #[cfg(feature = "impl-default")]
+        impl Default for $name {
+            #[inline]
+            fn default() -> $name { unsafe { $crate::_core::mem::zeroed() } }
+        }
+    );
+}
+#[macro_export]
+macro_rules! STRUCT8 {
+    (#[debug] $($rest:tt)*) => (
+        STRUCT!{#[cfg_attr(feature = "impl-debug", derive(Debug))] $($rest)*}
+    );
+    ($(#[$attrs:meta])* struct $name:ident {
+        $($field:ident: $ftype:ty,)+
+    }) => (
+        #[repr(C, align(8))] #[derive(Copy)] $(#[$attrs])*
+        pub struct $name {
+            $(pub $field: $ftype,)+
+        }
+        impl Clone for $name {
+            #[inline]
+            fn clone(&self) -> $name { *self }
+        }
+        #[cfg(feature = "impl-default")]
+        impl Default for $name {
+            #[inline]
+            fn default() -> $name { unsafe { $crate::_core::mem::zeroed() } }
+        }
+    );
+}
 macro_rules! IFDEF {
     ($($thing:item)*) => ($($thing)*)
 }

@@ -907,13 +907,13 @@ pub const MAXIMUM_WAIT_OBJECTS: DWORD = 64;
 pub const MAXIMUM_SUSPEND_COUNT: CHAR = MAXCHAR;
 pub type KSPIN_LOCK = ULONG_PTR;
 pub type PKSPIN_LOCK = *mut KSPIN_LOCK;
-STRUCT!{struct M128A { // FIXME align 16
+STRUCT16!{struct M128A {
     Low: ULONGLONG,
     High: LONGLONG,
 }}
 pub type PM128A = *mut M128A;
 #[cfg(target_pointer_width = "32")]
-STRUCT!{struct XSAVE_FORMAT { // FIXME align 16
+STRUCT16!{struct XSAVE_FORMAT {
     ControlWord: WORD,
     StatusWord: WORD,
     TagWord: BYTE,
@@ -932,7 +932,7 @@ STRUCT!{struct XSAVE_FORMAT { // FIXME align 16
     Reserved4: [BYTE; 224],
 }}
 #[cfg(target_pointer_width = "64")]
-STRUCT!{struct XSAVE_FORMAT { // FIXME align 16
+STRUCT16!{struct XSAVE_FORMAT {
     ControlWord: WORD,
     StatusWord: WORD,
     TagWord: BYTE,
@@ -969,13 +969,13 @@ STRUCT!{struct XSTATE_CONTEXT {
     Buffer: PVOID,
 }}
 pub type PXSAVE_FORMAT = *mut XSAVE_FORMAT;
-STRUCT!{struct XSAVE_AREA_HEADER { // FIXME align 8
+STRUCT8!{struct XSAVE_AREA_HEADER {
     Mask: DWORD64,
     CompactionMask: DWORD64,
     Reserved2: [DWORD64; 6],
 }}
 pub type PXSAVE_AREA_HEADER = *mut XSAVE_AREA_HEADER;
-STRUCT!{struct XSAVE_AREA { // FIXME align 16
+STRUCT16!{struct XSAVE_AREA {
     LegacyState: XSAVE_FORMAT,
     Header: XSAVE_AREA_HEADER,
 }}
@@ -1053,7 +1053,7 @@ UNION!{union CONTEXT_u {
     FltSave FltSave_mut: XMM_SAVE_AREA32,
     s s_mut: CONTEXT_u_s,
 }}
-STRUCT!{struct CONTEXT { // FIXME align 16
+STRUCT16!{struct CONTEXT {
     P1Home: DWORD64,
     P2Home: DWORD64,
     P3Home: DWORD64,
@@ -1380,7 +1380,7 @@ UNION!{union ARM64_NT_NEON128 {
     H H_mut: [WORD; 8],
     B B_mut: [BYTE; 16],
 }}
-STRUCT!{struct CONTEXT { // FIXME align 16
+STRUCT16!{struct CONTEXT {
     ContextFlags: DWORD,
     Cpsr: DWORD,
     u: CONTEXT_u,
